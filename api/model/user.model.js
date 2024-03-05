@@ -23,6 +23,10 @@ import mongoose, { mongo } from "mongoose";
         type:String,
         required:true,
     },
+    // answer:{
+    //     type:String,
+    //     required:true,
+    // },
     role:{
         type:String,
         default:0

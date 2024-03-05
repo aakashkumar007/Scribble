@@ -3,10 +3,11 @@ import bcrypt from 'bcrypt'
 export const hashPassword = async(password) => {
     try {
         const saltRounds=10;
-        const hashPassword = await bcrypt.hashSync(password,saltRounds);
+        const hashPassword = await bcrypt.hash(password,saltRounds);
         return hashPassword;
     } catch (error) {
         console.log(error);
+        
     }
 }
 
