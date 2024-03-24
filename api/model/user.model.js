@@ -1,10 +1,11 @@
 import mongoose, { mongo } from "mongoose";
 
- const userSchema = await new mongoose.Schema({
+ const userSchema = new mongoose.Schema({
     name:{
         type:String,
-        required:true
-    },
+        required:true,
+        trim:true
+     },
     email:{
         type:String,
         required:true,
@@ -18,15 +19,16 @@ import mongoose, { mongo } from "mongoose";
     phone:{
         type:String,
         required:true,
+      
     },
     address:{
         type:String,
         required:true,
     },
-    // answer:{
-    //     type:String,
-    //     required:true,
-    // },
+    answer:{
+        type:String,
+        required:true,
+    },
     role:{
         type:String,
         default:0

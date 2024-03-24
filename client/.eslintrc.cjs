@@ -17,5 +17,7 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'no-unused-vars': 'warn', // Rule to warn about unused variables
+    'no-empty': 'warn', // Rule to warn about empty block statements
   },
 }

@@ -4,7 +4,7 @@ import JWT from "jsonwebtoken";
 
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone,answer, address } = req.body;
     //validations
     if (!name) {
       return res.send({ error: "Name is Required" });
@@ -20,6 +20,9 @@ export const registerController = async (req, res) => {
     }
     if (!address) {
       return res.send({ message: "Address is Required" });
+    }
+    if (!answer) {
+      return res.send({ message: "Answer is Required" });
     }
     //check user
     const exisitingUser = await userSchema.findOne({ email });
@@ -38,6 +41,7 @@ export const registerController = async (req, res) => {
       email,
       phone,
       address,
+      answer,
       password: hashedPassword,
     }).save();
 
@@ -72,10 +76,13 @@ export const loginController = async (req, res) => {
     //check user
     const user = await userSchema.findOne({ email });
     if (!user) {
+      console.log(req.body);
       return res.status(404).send({
         success: false,
         message: "Email is not registerd",
+       
       });
+      
     }
     const match = await comparePassword(password, user.password);
     if (!match) {
@@ -97,6 +104,7 @@ export const loginController = async (req, res) => {
         email: user.email,
         phone: user.phone,
         adddress: user.address,
+        role:user.role,
       },
       token,
     });
@@ -110,12 +118,20 @@ export const loginController = async (req, res) => {
   }
 };
 
-//Forgot Password controller
 export const forgotPasswordController = async(req,res)=>{
   try {
-    const {email,answer,newPassword} =req.body;
-    if(!email  || !answer || !newPassword){
-      return res.status(400).send({message: 'Please provide all fields'})
+    const {email,password,answer} =req.body;
+    console.log(email, password, answer);
+    if (!email) {
+      return res.status(400).send({ message: 'Please provide an email' });
+    }
+    
+    if (!password) {
+      return res.status(400).send({ message: 'Please provide a new password' });
+    }
+    
+    if (!answer) {
+      return res.status(400).send({ message: 'Please provide an answer' });
     }
 
     //check
@@ -128,7 +144,7 @@ export const forgotPasswordController = async(req,res)=>{
         message:"Wrong Email Or Answer"
       })
     }
-    const hashed = hashPassword(newPassword)
+    const hashed =await hashPassword(password)
     await userSchema.findByIdAndUpdate(user._id ,{password :hashed});
     
     res.status(201).json({
@@ -149,6 +165,7 @@ export const forgotPasswordController = async(req,res)=>{
   }
 
 }
+
 
 //test controller
 export const testController = (req, res) => {

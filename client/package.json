@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@material-tailwind/html": "^2.2.2",
+    "antd": "^5.15.3",
     "axios": "^1.6.7",
+    "buffer": "^6.0.3",
     "helmet": "^7.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

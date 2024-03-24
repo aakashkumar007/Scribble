@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { TiShoppingCart } from "react-icons/ti";
 import { useAuth } from '../../context/auth.jsx';
 import { toast } from 'react-toastify';
 import { GiHamburgerMenu } from "react-icons/gi";
-
 
 const Header = () => {
   const [auth, setAuth] = useAuth()
@@ -32,8 +31,8 @@ const Header = () => {
     setTimeout(function () { navigate('/') }, 1000);
 
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     const handleResize = () => {
       setWindowSize(window.innerWidth);
     };
@@ -41,15 +40,17 @@ const Header = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  },[showMenu]);
+  }, [showMenu]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (windowSize < 768) {
       setShowMenu(false);
     } else {
       setShowMenu(true);
     }
-  },[windowSize])
+  }, [windowSize])
+
+
 
   return (
     <header className='bg-purple-600 p-2 flex justify-between items-center mb-2 shadow-sm shadow-purple-500'>
@@ -61,7 +62,7 @@ const Header = () => {
           Ecommerce
         </Link>
       </div>
-     <nav className='flex items-center flex-col mr-8'>
+      <nav className='flex items-center flex-col mr-8'>
         <div className='md:hidden cursor-pointer mr-3' onClick={() => setShowMenu(!showMenu)} >
           <GiHamburgerMenu />
         </div>
@@ -75,24 +76,30 @@ const Header = () => {
           <li className='font-bold mx-2  '>
             <Link className='text-white no-underline hover:bg-white hover:text-blue-600  p-2 rounded-lg' to='/about '>About</Link>
           </li>
-        {
-          !auth.user ? (
-            <>
-              <div className='flex gap-4 m'>
-                <Link to='/signup' className='bg-white text-purple-700 font-bold no-underline uppercase py-1 px-2 rounded hover:shadow-md hover:shadow-black hover:bg-slate-200 '>
-                  Sign Up
+          {
+            !auth.user ? (
+              <>
+                <div className='flex gap-4 m'>
+                  <Link to='/signup' className='bg-white text-purple-700 font-bold no-underline uppercase py-1 px-2 rounded hover:shadow-md hover:shadow-black hover:bg-slate-200 '>
+                    Sign Up
+                  </Link>
+                  <Link to='/signin' className='bg-white text-purple-700 font-bold no-underline uppercase py-1 px-2 rounded hover:shadow-md hover:shadow-black hover:bg-slate-200 '>
+                    Sign In
+                  </Link>
+                </div>
+              </>
+            ) : (<>
+              <div>
+               <Link to={auth.user.role==1 ? "/AdminDashboard/admin" : "/dashboard/user"} className='mr-3 bg-white text-purple-700 font-bold no-underline uppercase py-1 px-2 rounded hover:shadow-md hover:shadow-black hover:bg-slate-200'>
+                  {auth.user.name}
                 </Link>
-                <Link to='/signin' className='bg-white text-purple-700 font-bold no-underline uppercase py-1 px-2 rounded hover:shadow-md hover:shadow-black hover:bg-slate-200 '>
-                  Sign In
+              
+              <Link onClick={handleLogOut} className='bg-white text-purple-700 font-bold no-underline uppercase py-1 px-2 rounded hover:shadow-md hover:shadow-black hover:bg-slate-200 '>
+                  Logout
                 </Link>
               </div>
-            </>
-          ) : (<>
-            <Link onClick={handleLogOut} className='bg-white text-purple-700 font-bold no-underline uppercase py-1 px-2 rounded hover:shadow-md hover:shadow-black hover:bg-slate-200 '>
-              Logout
-            </Link>
-          </>)
-        }
+            </>)
+          }    
         </ul>}
       </nav>
     </header>

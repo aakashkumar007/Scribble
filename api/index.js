@@ -1,7 +1,9 @@
 import express from "express";
 import dotenv from 'dotenv';
 import mongoose from "mongoose";
-import router from "./routes/authRote.js";
+import router from "./routes/authRoute.js";
+import productRoutes from './routes/pruductRoute.js'
+import categoryRoutes from './routes/categoryRoutes.js'
 // import morgan from "morgan";
 // import connectDB from "./config/db.js";
 import cors from  "cors"
@@ -21,7 +23,7 @@ const corsOptions = {
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     optionsSuccessStatus: 200,
-    credentials: true // Fix typo here
+    credentials: true 
 };
 
 //database config
@@ -37,6 +39,8 @@ app.use(express.json());
 
 //routes
 app.use("/api/auth", router);
+app.use("/api/category",categoryRoutes)
+app.use("/api/product",productRoutes)
 
 app.get("/",(req,res) => {
     res.send({

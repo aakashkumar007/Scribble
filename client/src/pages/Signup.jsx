@@ -28,9 +28,8 @@ import { useNavigate } from 'react-router-dom'
             theme: "colored",
             });
             setTimeout(function(){navigate('/signin')},1000);
-          navigate("/signin");
         } else {
-          console.log(res.data.message);
+          toast.error("User  Already Exists!");
         }
       } catch (error) {
         console.log(error);
@@ -91,12 +90,12 @@ import { useNavigate } from 'react-router-dom'
               <input onChange={handleChange} className='p-3 rounded-lg ' type='text' placeholder='Enter Your Phone Number' name='phone'  id='phone' required/>
             </div>
 
-  {/* Address */}
+  {/* Answer */}
             <div className='flex flex-col gap-1'>
               <label className='ml-1'>Question:</label>
-              <input onChange={handleChange} className='p-3 rounded-lg ' type='text' placeholder='What is your nickname' name='address' id='address' required/>
+              <input onChange={handleChange} className='p-3 rounded-lg ' type='text' placeholder='What is your nickname' name='answer' id='answer' required/>
             </div>
-
+  {/* Address */}
             <div className='flex flex-col gap-1'>
               <label className='ml-1'>Address:</label>
               <input onChange={handleChange} className='p-3 rounded-lg ' type='text' placeholder='Enter Your Address' name='address' id='address' required/>

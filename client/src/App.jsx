@@ -15,6 +15,10 @@ import SignIn from './pages/SignIn'
 import Dashboard from './user/Dashboard';
 import PrivateRoute from './privateRoute/PrivateRoute';
 import ForgotPassword from './pages/ForgotPassword';
+import PrivateAdminRoute from './privateRoute/AdminRoute';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import UpdateProduct from './pages/admin/UpdateProduct';
+import CreateProduct from './pages/admin/CreateProduct';
 
 
 function App() {
@@ -25,9 +29,17 @@ function App() {
       <Route path='/' element={<HomePage/>}/>
       <Route path='/contact' element={<Contact/>}/>
       <Route path='/about' element={<About/>}/>
+
       <Route path='/dashboard' element={<PrivateRoute/>}>
-      <Route path='' element={<Dashboard/>}/>
+      <Route path='user' element={<Dashboard/>}/>
       </Route>
+
+      <Route path='/AdminDashboard' element={<PrivateAdminRoute/>}>
+      <Route path='admin' element={<AdminDashboard/>}/>
+      <Route path='admin/create-product' element={<CreateProduct/>}/>
+      <Route path='admin/update-product/:slug' element={<UpdateProduct/>}/>
+      </Route>
+
       <Route path='/signup' element={<Signup/>}/>
       <Route path='/forgotPassword' element={<ForgotPassword/>}/>
       <Route path='/signin' element={<SignIn/>}/>
