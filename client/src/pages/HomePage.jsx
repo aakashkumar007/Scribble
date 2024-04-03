@@ -41,10 +41,10 @@ const HomePage = () => {
       }
     }
 
-    getAllProduct();
-  }, []);
+    if(!checked.length|| !radio.length) getAllProduct();
+  }, [checked,radio]);
 
-  //filter Handle function
+  //filter Handle by category function
   const handleFilter=(value,id)=>{
    let allChecked = [...checked]; 
     if(value){
@@ -55,7 +55,20 @@ const HomePage = () => {
     
     setChecked(allChecked)
     }
-    
+
+   //get filter products by price
+   const filterProduct = async() => {
+    try {
+      const {data} = await  axios.post('http://localhost:4000/api/product/product-filter',{checked,radio})
+      setProducts(data?.products)
+    } catch (error) {
+      console.log(error);
+    }
+   } 
+
+   useEffect(()=>{
+    if(checked.length || radio.length )filterProduct();
+   },[checked,radio]);
 
   return (
     <>
@@ -85,6 +98,7 @@ const HomePage = () => {
               }
             </Radio.Group>
           </div>
+          <button onClick={()=>{}} className='p-2 min-w-20 m-2 bg-transparent rounded-md  uppercase'>reset filter</button>
         </div>
 
         {/* Product Display */}
@@ -111,7 +125,7 @@ const HomePage = () => {
                     More Details
                   </p>
                   <FaAngleDoubleDown className='ml-1' />
-                  <button className='ml-8 rounded-lg' >Add to Cart</button>
+                  <button className='ml-8 rounded-lg p-2' >Add to Cart</button>
                 </div>
               </div>
             </Link>
