@@ -15,6 +15,7 @@ export default function PrivateRoute() {
           Authorization : auth?.token
         }
       });
+      console.log(auth.user.role)
       if (res.data.ok) {
         setOk(true);
       } else {
@@ -23,7 +24,7 @@ export default function PrivateRoute() {
     };
     if (auth?.token) {
       authCheck();
-      console.log({auth});
+      
     }
   }, [auth?.token]);
 

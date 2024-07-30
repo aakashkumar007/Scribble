@@ -92,7 +92,7 @@ const SignIn = () => {
              {/* Password */}
             <div className='flex flex-col gap-1'>
               <label className='ml-1'>Password:</label>
-              <input onChange={handleChange} className='p-3 rounded-lg ' type='text' placeholder='Enter Your Password' name='password' id='password' required/>
+              <input onChange={handleChange} className='p-3 rounded-lg ' type='password' placeholder='Enter Your Password' name='password' id='password' required/>
             </div>
                
                

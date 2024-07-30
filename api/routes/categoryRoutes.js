@@ -19,4 +19,6 @@ router.get('/get-single-category/:slug',singleCategoryController)
 
 //deleter category
 router.delete('/delete-category/:id',requireSignIn,isAdmin, deleteCategoryController)
+
+ 
 export default router

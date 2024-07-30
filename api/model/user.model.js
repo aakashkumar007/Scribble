@@ -22,7 +22,7 @@ import mongoose, { mongo } from "mongoose";
       
     },
     address:{
-        type:String,
+        type:{},
         required:true,
     },
     answer:{

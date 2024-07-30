@@ -1,6 +1,8 @@
+import { error, log } from "console";
 import productModel from "../model/productModel.js";
 import fs from "fs";
 import slugify from "slugify";
+import categoryModel from '../model/categoryModel.js'
 
 export const createProductController = async (req, res) => {
   try {
@@ -205,3 +207,76 @@ export const productFilterController = async (req, res) => {
     });
   }
 };
+export const productCountController=async(req,res)=>{
+  try {
+    const total = await productModel.find({}).estimatedDocumentCount();
+    res.status(200).send({
+      success:true,
+      message:false,
+      total
+    })
+  } catch (error) {
+    res.status(400).send({
+      message:"Error in product count",
+      success:false,
+      error
+    })
+  }
+}
+
+export const productListController = async (req, res) => {
+  try {
+    const perPage = 8;
+    const page = req.params.page ? req.params.page : 1;
+    const products = await productModel
+      .find({})
+      .select("-photo")
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .sort({ createdAt: -1 });
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "error in per page ctrl",
+      error,
+    });
+  }
+};
+
+export const productListControllerPage = async(req,res)=>{
+
+  try {
+    const category = await categoryModel.findOne({
+      slug:req.params.slug
+    })
+
+    
+
+    const product = await productModel.find({
+      category
+    }).populate('category')
+
+    res.status(200).send({
+      success:true,
+      error,
+      message:"Product category-wise",
+      category,
+      product
+      
+    })
+  } catch (error) {
+    console.log(error);
+    req.status(400).send({
+      success:false,
+      error,
+      message:"Error while getting products"
+    })
+  }
+}
+
+

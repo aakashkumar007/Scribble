@@ -1,30 +1,34 @@
 import { useState, useEffect } from "react";
-import {useAuth} from '../context/auth'
+import { useAuth } from '../context/auth';
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../pages/Spinner";
 
 export default function PrivateAdminRoute() {
   const [ok, setOk] = useState(false);
-  const [auth, setAuth] = useAuth();
+  const [auth,setAuth] = useAuth();
 
   useEffect(() => {
     const authCheck = async () => {
-      const res = await axios.get("http://localhost:4000/api/auth/admin-auth",{
-        headers:{
-          Authorization : auth?.token
+      try {
+        const res = await axios.get("http://localhost:4000/api/auth/admin-auth", {
+          headers: {
+            Authorization: auth?.token
+          }
+        });
+        if (res.data.ok) {
+          setOk(true);
+        } else {
+          setOk(false);
         }
-      });
-      console.log(res)
-      if (res.data.ok) {
-        setOk(true);
-      } else {
+      } catch (error) {
+        console.error("Admin auth check failed", error);
         setOk(false);
       }
     };
+
     if (auth?.token) {
       authCheck();
-      console.log({auth});
     }
   }, [auth?.token]);
 
